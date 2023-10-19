@@ -1,63 +1,55 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { NavLink } from 'react-router-dom';
-import { Roles } from 'meteor/alanning:roles';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import { Image, Container, Nav, Navbar, NavDropdown, Stack } from 'react-bootstrap';
+import { ArrowRight, Cart, Person } from 'react-bootstrap-icons';
 
-const NavBar = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { currentUser } = useTracker(() => ({
-    currentUser: Meteor.user() ? Meteor.user().username : '',
-  }), []);
-
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand as={NavLink} to="/">
-          <h2>meteor-application-template-react</h2>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto justify-content-start">
-            {currentUser ? ([
-              <Nav.Link id="add-stuff-nav" as={NavLink} to="/add" key="add">Add Stuff</Nav.Link>,
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/list" key="list">List Stuff</Nav.Link>,
-            ]) : ''}
-            {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
-              <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/admin" key="admin">Admin</Nav.Link>
-            ) : ''}
-          </Nav>
-          <Nav className="justify-content-end">
-            {currentUser === '' ? (
-              <NavDropdown id="login-dropdown" title="Login">
-                <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/signin">
-                  <PersonFill />
-                  Sign
-                  in
-                </NavDropdown.Item>
-                <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/signup">
-                  <PersonPlusFill />
-                  Sign
-                  up
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <NavDropdown id="navbar-current-user" title={currentUser}>
-                <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
-                  <BoxArrowRight />
-                  {' '}
-                  Sign
-                  out
-                </NavDropdown.Item>
-              </NavDropdown>
+const NavBar = () => (
+  <Container fluid className="px-0">
+    <Navbar expand="lg" bg="light" className="shadow">
+      <Container className="py-1">
+        <Nav className="align-items-center">
+          <Navbar.Brand className="justify-content-center" href="#">
+            <Image
+              src="/images/logo.webp"
+              width="59px"
+              height="47px"
+            />
+          </Navbar.Brand>
+          <Nav.Link><h4 className="fw-bold">Deals</h4></Nav.Link>
+          <NavDropdown title="Menu" className="h4 fw-bold">
+            <NavDropdown.Item>Pizza</NavDropdown.Item>
+            <NavDropdown.Item>Wings</NavDropdown.Item>
+            <NavDropdown.Item>Sides</NavDropdown.Item>
+            <NavDropdown.Item>Pasta</NavDropdown.Item>
+            <NavDropdown.Item>Desserts</NavDropdown.Item>
+            <NavDropdown.Item>Drinks</NavDropdown.Item>
+            <NavDropdown.Item>Dips</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+        <Nav className="justify-content-end gap-3 align-items-center">
+          <Stack direction="horizontal" className="shadow p-2 rounded" gap={2}>
+            <Person className="h1 mt-1" />
+            <Stack>
+              <span className="fw-light red-color"><small>HUT REWARDS</small></span>
+              <span>Sign In <ArrowRight /></span>
+            </Stack>
+          </Stack>
+          <NavDropdown
+            id="no-caret"
+            title={(
+              <Stack
+                direction="horizontal"
+                className="h4 fw-bold"
+                gap={1}
+              ><Cart />$0.00
+              </Stack>
             )}
-          </Nav>
-        </Navbar.Collapse>
+          >
+            <NavDropdown.Item>Empty Cart</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
       </Container>
     </Navbar>
-  );
-};
+  </Container>
+);
 
 export default NavBar;
