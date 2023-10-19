@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Image, Stack } from 'react-bootstrap';
+import { NavLink, Stack } from 'react-bootstrap';
 import { ArrowRight } from 'react-bootstrap-icons';
 import ItemCard from './ItemCard';
 import ItemCardLong from './ItemCardLong';
